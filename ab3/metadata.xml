@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin id="ab3">
-  <file-mirror id="ab3">
+  <mirror-site id="ab3">
     <name>Mirror for ab3.com.cn</name>
     <data-directory>ab3</data-directory>
     <initializer>
@@ -14,5 +14,5 @@
       <protocol>http</protocol>
       <protocol>ftp</protocol>
     </advertiser>
-  </file-mirror>
+  </mirror-site>
 </plugin>
