@@ -9,9 +9,9 @@ import json
 import manpa
 import shutil
 import random
-import socket
 import subprocess
 import xml.dom.minidom
+import mirrors.plugin
 from datetime import datetime
 from datetime import timedelta
 
@@ -82,35 +82,6 @@ class Main:
             self.p.decIndent()
 
 
-class MUtil:
-
-    @staticmethod
-    def connect():
-        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        sock.connect("/run/mirrors/api.socket")
-        return sock
-
-    @staticmethod
-    def progress_changed(sock, progress):
-        sock.send(json.dumps({
-            "message": "progress",
-            "data": {
-                "progress": progress,
-            },
-        }).encode("utf-8"))
-        sock.send(b'\n')
-
-    @staticmethod
-    def error_occured(sock, exc_info):
-        sock.send(json.dumps({
-            "message": "error",
-            "data": {
-                "exc_info": "abc",
-            },
-        }).encode("utf-8"))
-        sock.send(b'\n')
-
-
 class Util:
 
     @staticmethod
@@ -179,12 +150,10 @@ class InfoPrinter:
 ###############################################################################
 
 if __name__ == "__main__":
-    sock = MUtil.connect()
-    try:
-        Main(sock).run()
-        MUtil.progress_changed(sock, 100)
-    except Exception:
-        MUtil.error_occured(sock, sys.exc_info())
-        raise
-    finally:
-        sock.close()
+    with mirrors.plugin.ApiClient() as sock:
+        try:
+            Main(sock).run()
+            sock.progress_changed(100)
+        except Exception:
+            sock.error_occured(sys.exc_info())
+            raise
