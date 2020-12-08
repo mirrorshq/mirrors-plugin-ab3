@@ -2,7 +2,9 @@
 <plugin id="ab3">
   <mirror-site id="ab3">
     <name>Mirror for ab3.com.cn</name>
-    <data-directory>ab3</data-directory>
+    <storage type="file"/>
+    <advertiser type="httpdir"/>
+    <advertiser type="ftp"/>
     <initializer>
       <executable>updater.py</executable>
     </initializer>
@@ -10,9 +12,5 @@
       <executable>updater.py</executable>
       <cron-expression>0 * * * *</cron-expression>
     </updater>
-    <advertiser>
-      <protocol>http</protocol>
-      <protocol>ftp</protocol>
-    </advertiser>
   </mirror-site>
 </plugin>
