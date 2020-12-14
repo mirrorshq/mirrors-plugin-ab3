@@ -12,5 +12,6 @@
       <executable>updater.py</executable>
       <cron-expression>0 * * * *</cron-expression>
     </updater>
+    <need-log-directory/>
   </mirror-site>
 </plugin>
